@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление Контактами</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">👤</div>
+                <div>
+                    <h1 style="font-size: 1.25rem; font-weight: 700;">Управление Контактами</h1>
+                    <p style="font-size: 12px; color: var(--text-muted);">Всего контактов: <span id="totalCount">0</span></p>
+                </div>
+            </div>
+            <div class="header-btns">
+                <button class="btn-menu">Меню</button>
+                <button class="btn-add" onclick="showModal('modalAdd')"><span>+</span> Добавить контакт</button>
+                <button class="btn-export">📥 Экспорт</button>
+                <button class="btn-import">📤 Импорт</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Вставка шаблонов (в реальном приложении это делает сервер, здесь мы имитируем структуру) -->
+        <div id="search-placeholder"></div>
+        <div id="contacts-list"></div>
+    </main>
+
+    <!-- Модальные окна -->
+    <div id="modals-placeholder"></div>
+
+    <script>
+        // Имитация работы сервера: загружаем данные и рендерим шаблоны
+        let contacts = [
+            { id: 1, name: 'Александр Петров', phone: '+7 (999) 123-45-67', email: 'a.petrov@example.com', address: 'г. Москва, ул. Ленина, д. 15, кв. 42', category: 'Работа' },
+            { id: 2, name: 'Дмитрий Сидоров', phone: '+7 (977) 111-22-33', email: 'dmitry.s@gmail.com', address: 'г. Казань, ул. Баумана, д. 5', category: 'Друзья' }
+        ];
+
+        function renderContacts() {
+            const container = document.getElementById('contacts-list');
+            const totalCount = document.getElementById('totalCount');
+            totalCount.innerText = contacts.length;
+
+            // Группировка по категориям
+            const groups = contacts.reduce((acc, c) => {
+                acc[c.category] = acc[c.category] || [];
+                acc[c.category].push(c);
+                return acc;
+            }, {});
+
+            container.innerHTML = '';
+            for (const [category, items] of Object.entries(groups)) {
+                const section = document.createElement('div');
+                section.className = 'category-block';
+                section.innerHTML = `
+                    <h2 class="category-title">${category} (${items.length})</h2>
+                    <div class="contact-grid">
+                        ${items.map(c => `
+                            <div class="contact-card">
+                                <div class="contact-header">
+                                    <div class="contact-name">${c.name}</div>
+                                    <span class="badge">${c.category}</span>
+                                </div>
+                                <div class="contact-info">
+                                    <div class="info-item">📞 ${c.phone}</div>
+                                    <div class="info-item">✉️ ${c.email}</div>
+                                    <div class="info-item">📍 ${c.address}</div>
+                                </div>
+                                <div class="card-actions">
+                                    <button class="btn-edit" onclick="editContact(${c.id})">Редактировать</button>
+                                    <button class="btn-delete" onclick="deleteContact(${c.id})">Удалить</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(section);
+            }
+        }
+
+        function deleteContact(id) {
+            if(confirm('Удалить контакт?')) {
+                contacts = contacts.filter(c => c.id !== id);
+                renderContacts();
+            }
+        }
+
+        function showModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.className === 'modal-overlay') {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Имитация загрузки шаблонов
+        document.addEventListener('DOMContentLoaded', () => {
+            // В реальном проекте здесь был бы fetch('templates/search.html')
+            document.getElementById('search-placeholder').innerHTML = `
+                <section class="search-section">
+                    <div class="search-grid">
+                        <div class="input-group">
+                            <label>Поиск</label>
+                            <input type="text" placeholder="Поиск по имени, телефону, email, адресу...">
+                        </div>
+                        <div class="input-group">
+                            <label>Категория</label>
+                            <select>
+                                <option>Все категории</option>
+                                <option>Работа</option>
+                                <option>Друзья</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="sort-bar">
+                        <span class="sort-label">Сортировка:</span>
+                        <div class="sort-tag active">Имя ↑</div>
+                        <div class="sort-tag">Телефон</div>
+                        <div class="sort-tag">Email</div>
+                        <div class="sort-tag">Категория</div>
+                        <div class="sort-tag">Дата</div>
+                    </div>
+                </section>
+            `;
+
+            document.getElementById('modals-placeholder').innerHTML = `
+                <div class="modal-overlay" id="modalAdd">
+                    <div class="modal">
+                        <div class="modal-header"><h3>Добавить контакт</h3></div>
+                        <form onsubmit="event.preventDefault(); addFromForm(this);">
+                            <div class="modal-body">
+                                <input type="text" name="name" placeholder="Имя" required style="margin-bottom:10px">
+                                <input type="text" name="phone" placeholder="Телефон" required style="margin-bottom:10px">
+                                <input type="email" name="email" placeholder="Email" required style="margin-bottom:10px">
+                                <textarea name="address" placeholder="Адрес" required style="margin-bottom:10px"></textarea>
+                                <select name="category"><option>Работа</option><option>Друзья</option></select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" onclick="this.closest('.modal-overlay').style.display='none'">Отмена</button>
+                                <button type="submit" class="btn-add">Добавить</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+
+            renderContacts();
+        });
+
+        function addFromForm(form) {
+            const newC = {
+                id: Date.now(),
+                name: form.name.value,
+                phone: form.phone.value,
+                email: form.email.value,
+                address: form.address.value,
+                category: form.category.value
+            };
+            contacts.push(newC);
+            renderContacts();
+            form.closest('.modal-overlay').style.display = 'none';
+            form.reset();
+        }
+    </script>
+</body>
+</html>
