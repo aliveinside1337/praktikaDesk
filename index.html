@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление Контактами - Modular</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="static/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- LAYER: HEADER -->
+    <div class="header-glass w-full mb-8">
+        <header class="max-w-7xl mx-auto px-4 py-6 md:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+                <div class="flex items-center gap-3">
+                    <div class="bg-gray-900 text-white p-2.5 rounded-xl shadow-lg shadow-black/10">
+                        <i class="fas fa-user-circle text-2xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-extrabold tracking-tight text-gray-900">Управление Контактами</h1>
+                </div>
+                <p class="text-xs font-semibold text-gray-400 mt-1.5 ml-14 uppercase tracking-wider">Всего контактов: 2</p>
+            </div>
+            
+            <div class="flex flex-wrap gap-2">
+                <button id="menuBtn" class="bg-white border border-gray-100 px-6 py-2.5 rounded-xl font-bold text-gray-600 shadow-sm hover:bg-gray-50 btn-transition text-sm">Меню</button>
+                <button onclick="showDevToast()" class="bg-purple-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-purple-200 hover:bg-purple-700 btn-transition text-sm">
+                    <i class="fas fa-plus mr-2"></i>Добавить контакт
+                </button>
+                <button onclick="switchSection('export')" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-emerald-200 hover:bg-emerald-700 btn-transition text-sm hidden md:block">
+                    <i class="fas fa-download mr-2"></i>Экспорт
+                </button>
+                <button onclick="switchSection('import')" class="bg-blue-600 text-white px-5 py-2.5 rounded-xl font-bold shadow-md shadow-blue-200 hover:bg-blue-700 btn-transition text-sm hidden md:block">
+                    <i class="fas fa-upload mr-2"></i>Импорт
+                </button>
+            </div>
+        </header>
+    </div>
+
+    <main class="p-4 md:p-8 pt-0 md:pt-0 max-w-7xl mx-auto">
+        
+        <!-- LAYER: SEARCH & CATEGORIES (Loaded in Contacts Section) -->
+        <section id="contacts-section" class="section-fade active">
+            <!-- templates/search.html component -->
+            <div class="glass-card p-6 mb-8">
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <div class="flex-grow">
+                        <label class="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wider">Поиск</label>
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" placeholder="Поиск по имени, телефону, email, адресу..." class="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-100 bg-white/50 focus:bg-white focus:ring-2 focus:ring-purple-200 outline-none transition-all">
+                        </div>
+                    </div>
+                    <div class="lg:w-64">
+                        <label class="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wider">Категория</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-100 bg-white/50 focus:bg-white focus:ring-2 focus:ring-purple-200 outline-none transition-all appearance-none cursor-pointer">
+                            <option>Все категории</option>
+                            <option>Работа</option>
+                            <option>Друзья</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- templates/categories.html component -->
+                <div class="flex flex-wrap items-center gap-2 mt-6">
+                    <span class="text-sm font-medium text-gray-500 mr-2">Сортировка:</span>
+                    <button class="px-4 py-1.5 rounded-full bg-purple-600 text-white text-xs font-semibold">Имя</button>
+                    <button class="px-4 py-1.5 rounded-full bg-gray-200 text-gray-700 text-xs font-semibold hover:bg-gray-300 btn-transition">Телефон</button>
+                    <button class="px-4 py-1.5 rounded-full bg-gray-200 text-gray-700 text-xs font-semibold hover:bg-gray-300 btn-transition">Email</button>
+                    <button class="px-4 py-1.5 rounded-full bg-gray-200 text-gray-700 text-xs font-semibold hover:bg-gray-300 btn-transition">Категория</button>
+                    <button class="px-4 py-1.5 rounded-full bg-gray-200 text-gray-700 text-xs font-semibold hover:bg-gray-300 btn-transition">Дата</button>
+                </div>
+            </div>
+
+            <!-- LAYER: CONTACTS LIST -->
+            <div class="space-y-10">
+                <h2 class="category-header text-xl font-bold mb-6">Работа <span class="text-gray-400 font-normal ml-1 text-base">(1)</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card contact-card p-6 flex flex-col h-full">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-bold">Александр Петров</h3>
+                            <span class="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider mt-1">Работа</span>
+                        </div>
+                        <div class="space-y-3 flex-grow mb-6 text-sm text-gray-500">
+                            <div class="flex items-center gap-2"><i class="fas fa-phone w-5"></i> +7 (999) 123-45-67</div>
+                            <div class="flex items-center gap-2"><i class="fas fa-envelope w-5"></i> a.petrov@example.com</div>
+                            <div class="flex items-start gap-2"><i class="fas fa-map-marker-alt w-5 mt-1"></i> г. Москва, ул. Ленина, д. 15, кв. 42</div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="showDevToast()" class="flex-grow py-2 rounded-lg bg-purple-600 text-white text-xs font-bold hover:bg-purple-700 transition-colors">Редактировать</button>
+                            <button onclick="showDevToast()" class="flex-grow py-2 rounded-lg bg-red-500 text-white text-xs font-bold hover:bg-red-600 transition-colors">Удалить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="category-header text-xl font-bold mb-6">Друзья <span class="text-gray-400 font-normal ml-1 text-base">(1)</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-card contact-card p-6 flex flex-col h-full">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-bold">Дмитрий Сидоров</h3>
+                            <span class="inline-block px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase tracking-wider mt-1">Друзья</span>
+                        </div>
+                        <div class="space-y-3 flex-grow mb-6 text-sm text-gray-500">
+                            <div class="flex items-center gap-2"><i class="fas fa-phone w-5"></i> +7 (877) 111-22-33</div>
+                            <div class="flex items-center gap-2"><i class="fas fa-envelope w-5"></i> dmitriy.s@gmail.com</div>
+                            <div class="flex items-start gap-2"><i class="fas fa-map-marker-alt w-5 mt-1"></i> г. Казань, ул. Бугунная, д. 5</div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="showDevToast()" class="flex-grow py-2 rounded-lg bg-purple-600 text-white text-xs font-bold hover:bg-purple-700 transition-colors">Редактировать</button>
+                            <button onclick="showDevToast()" class="flex-grow py-2 rounded-lg bg-red-500 text-white text-xs font-bold hover:bg-red-600 transition-colors">Удалить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LAYER: DATA (Import/Export) -->
+        <section id="import-section" class="section-fade max-w-4xl mx-auto">
+            <div class="glass-card p-8">
+                <h2 class="text-2xl font-bold mb-2">Импорт контактов</h2>
+                <p class="text-gray-500 mb-6 text-sm">Вставь JSON-массив контактов или загрузи файл и нажми кнопку импорта.</p>
+                <textarea id="importArea" class="w-full h-80 p-4 rounded-xl border border-gray-200 bg-white/50 focus:bg-white outline-none transition-all font-mono text-sm mb-6"></textarea>
+                <div class="flex gap-3">
+                    <button onclick="showDevToast()" class="bg-purple-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-purple-600 transition-all">Импорт</button>
+                    <button onclick="document.getElementById('importArea').value = ''" class="bg-white border border-gray-200 px-8 py-3 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition-all">Очистить</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="export-section" class="section-fade max-w-4xl mx-auto">
+            <div class="glass-card p-8">
+                <h2 class="text-2xl font-bold mb-2">Экспорт контактов</h2>
+                <p class="text-gray-500 mb-6 text-sm">Скачай текущий список контактов в формате JSON.</p>
+                <pre class="w-full h-80 p-4 rounded-xl border border-gray-200 bg-white/50 overflow-auto font-mono text-sm mb-6 text-gray-700">
+[
+  {
+    "id": 1,
+    "name": "Александр Петров",
+    "phone": "+7 (999) 123-45-67",
+    "email": "a.petrov@example.com",
+    "address": "г. Москва, ул. Ленина, д. 15, кв. 42",
+    "category": "Работа"
+  },
+  {
+    "id": 2,
+    "name": "Дмитрий Сидоров",
+    "phone": "+7 (877) 111-22-33",
+    "email": "dmitriy.s@gmail.com",
+    "address": "г. Казань, ул. Баумана, д. 5",
+    "category": "Друзья"
+  }
+]</pre>
+                <div class="flex gap-3">
+                    <button onclick="showDevToast()" class="bg-purple-500 text-white px-8 py-3 rounded-xl font-bold hover:bg-purple-600 transition-all">Импорт</button>
+                    <button onclick="showDevToast()" class="bg-white border border-gray-200 px-8 py-3 rounded-xl font-bold text-gray-700 hover:bg-gray-50 transition-all">Очистить</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- LAYER: SIDEBAR -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+    <aside id="sidebar" class="sidebar fixed right-0 top-0 h-full w-72 bg-white shadow-2xl z-50 p-8 flex flex-col closed">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-2xl font-bold">Разделы</h2>
+            <button id="closeMenu" class="text-gray-400 hover:text-black transition-colors"><i class="fas fa-times text-xl"></i></button>
+        </div>
+        <nav class="space-y-2 flex-grow">
+            <div data-section="contacts" class="nav-item active w-full px-4 py-3 rounded-xl font-medium flex items-center gap-3"><i class="fas fa-address-book"></i> Контакты</div>
+            <div data-section="import" class="nav-item w-full px-4 py-3 rounded-xl font-medium flex items-center gap-3"><i class="fas fa-file-import"></i> Импорт</div>
+            <div data-section="export" class="nav-item w-full px-4 py-3 rounded-xl font-medium flex items-center gap-3"><i class="fas fa-file-export"></i> Экспорт</div>
+            <div class="h-px bg-gray-100 my-4"></div>
+            <div onclick="showDevToast()" class="nav-item w-full px-4 py-3 rounded-xl font-medium flex items-center gap-3 text-gray-400 hover:text-gray-600 transition-colors">
+                <i class="fas fa-cog"></i> Настройки
+            </div>
+        </nav>
+    </aside>
+
+    <div id="toast" class="toast">🚧 В разработке</div>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const closeMenu = document.getElementById('closeMenu');
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section-fade');
+        const toast = document.getElementById('toast');
+
+        function toggleSidebar(show) {
+            if (show) {
+                sidebarOverlay.classList.remove('hidden');
+                setTimeout(() => sidebarOverlay.classList.add('opacity-100'), 10);
+                sidebar.classList.remove('closed');
+            } else {
+                sidebarOverlay.classList.remove('opacity-100');
+                sidebar.classList.add('closed');
+                setTimeout(() => sidebarOverlay.classList.add('hidden'), 300);
+            }
+        }
+
+        function switchSection(sectionId) {
+            navItems.forEach(i => {
+                if (i.getAttribute('data-section') === sectionId) i.classList.add('active');
+                else i.classList.remove('active');
+            });
+            sections.forEach(s => s.classList.remove('active'));
+            setTimeout(() => {
+                const target = document.getElementById(`${sectionId}-section`);
+                if (target) target.classList.add('active');
+            }, 50);
+            toggleSidebar(false);
+        }
+
+        menuBtn.addEventListener('click', () => toggleSidebar(true));
+        closeMenu.addEventListener('click', () => toggleSidebar(false));
+        sidebarOverlay.addEventListener('click', () => toggleSidebar(false));
+        navItems.forEach(item => item.addEventListener('click', () => switchSection(item.getAttribute('data-section'))));
+
+        function showDevToast() {
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1500);
+        }
+    </script>
+</body>
+</html>
