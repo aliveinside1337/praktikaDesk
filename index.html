@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управление Контактами</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-black rounded flex items-center justify-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" fill="white"/>
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="white"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold leading-tight">Управление Контактами</h1>
+                    <p class="text-sm text-gray-500">Всего контактов: 2</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="dropdown">
+                    <button class="btn btn-white">Меню</button>
+                    <div class="dropdown-content">
+                        <a href="index.html"><b>Профиль</b></a>
+                        <a href="templates/contacts.html">Контакты</a>
+                        <a href="templates/data.html">Настройки</a>
+                        <a href="templates/search.html">Поиск</a>
+                        <a href="templates/categories.html">Категории</a>
+                    </div>
+                </div>
+                <a href="templates/form_new.html" class="btn btn-purple">+ Добавить контакт</a>
+                <button class="btn btn-green">Экспорт</button>
+                <button class="btn btn-blue">Импорт</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-1">Профиль</h2>
+            <p class="text-sm text-gray-400 mb-8">Измени данные владельца CRM.</p>
+
+            <form onsubmit="return false;" class="grid grid-cols-2 gap-x-6 gap-y-6">
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400 font-medium ml-1">Имя</label>
+                    <input type="text" class="input-field" value="Иван Иванов">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400 font-medium ml-1">Email</label>
+                    <input type="email" class="input-field" value="ivan@example.com">
+                </div>
+                <div class="col-span-2 space-y-1">
+                    <label class="text-xs text-gray-400 font-medium ml-1">Роль</label>
+                    <input type="text" class="input-field" value="Администратор">
+                </div>
+                <div class="col-span-2 pt-2">
+                    <button class="btn btn-dark">Сохранить профиль</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
