@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Profile & Settings - Soft UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --primary-gradient: linear-gradient(135deg, #a855f7, #ec4899);
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --text-light: #b2bec3;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --radius: 25px;
+            --accent-purple: #a855f7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            padding: 40px;
+            min-height: 100vh;
+            flex-wrap: wrap;
+        }
+
+        /* Mobile Container Mockup */
+        .phone-screen {
+            width: 375px;
+            height: 812px;
+            background-color: var(--bg-color);
+            border-radius: 40px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            border: 8px solid #2d3436;
+        }
+
+        .phone-screen::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Typography */
+        h1, h2, h3 { color: var(--text-main); }
+        p { color: var(--text-muted); font-size: 14px; }
+
+        /* --- SCREEN 1: PROFILE --- */
+        .profile-header {
+            background: var(--primary-gradient);
+            height: 280px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            color: white;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+        }
+
+        .top-nav {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .profile-img-container {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.3);
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .profile-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .tag-btn {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 20px;
+            margin-top: -30px;
+        }
+
+        .action-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .action-card:active { transform: scale(0.95); }
+
+        .action-card i {
+            font-size: 20px;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .action-card span {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .info-section {
+            padding: 0 20px 20px 20px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .info-row:not(:last-child) {
+            border-bottom: 1px solid #f1f2f6;
+        }
+
+        .info-icon {
+            width: 40px;
+            color: var(--text-light);
+            font-size: 18px;
+        }
+
+        .info-content {
+            flex: 1;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: var(--text-light);
+            display: block;
+        }
+
+        .info-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .note-icon {
+            color: #d1d8e0;
+            font-size: 16px;
+        }
+
+        .data-list-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+        }
+
+        .data-label {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .data-value {
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .data-value.badge {
+            background: #fff9db;
+            color: #f08c00;
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        .delete-btn {
+            background: #fff5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #ff6b6b;
+            font-weight: 600;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        /* --- SCREEN 2: SETTINGS --- */
+        .settings-header {
+            background: white;
+            padding: 40px 20px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .settings-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .settings-content {
+            padding: 10px 20px 40px;
+        }
+
+        .user-profile-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+        }
+
+        .avatar-circle {
+            width: 50px;
+            height: 50px;
+            background: #f783ac;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-info h3 {
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-info p {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            margin: 25px 0 12px 5px;
+            text-transform: uppercase;
+        }
+
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .settings-item {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+        }
+
+        .item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #f1f2f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            font-size: 16px;
+        }
+
+        .item-text {
+            flex: 1;
+        }
+
+        .item-text h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .item-text p {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .chevron, .toggle-container {
+            color: var(--text-light);
+        }
+
+        /* Toggle Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: var(--primary-gradient);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .lang-badge {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SCREEN 1: CONTACT PROFILE -->
+    <div class="phone-screen" id="profile-screen">
+        <div class="profile-header">
+            <div class="top-nav">
+                <a href="#" class="nav-btn"><i class="fas fa-arrow-left"></i></a>
+                <div style="display: flex; gap: 10px;">
+                    <a href="#" class="nav-btn"><i class="far fa-star"></i></a>
+                    <a href="#" class="nav-btn"><i class="fas fa-pen"></i></a>
+                </div>
+            </div>
+            <div class="profile-img-container">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1000&auto=format&fit=crop" alt="Profile">
+            </div>
+            <h1 class="profile-name">Алексей Морозов</h1>
+            <div class="tag-btn">Другое</div>
+        </div>
+
+        <div class="quick-actions">
+            <a href="tel:+79506789012" class="action-card">
+                <i class="fas fa-phone"></i>
+                <span>Позвонить</span>
+            </a>
+            <a href="#" class="action-card">
+                <i class="fas fa-comment-dots"></i>
+                <span>SMS</span>
+            </a>
+            <a href="mailto:alex.morozov@mail.ru" class="action-card">
+                <i class="fas fa-envelope"></i>
+                <span>Email</span>
+            </a>
+        </div>
+
+        <div class="info-section">
+            <div class="info-card">
+                <div class="info-row">
+                    <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                    <div class="info-content">
+                        <span class="info-label">Телефон</span>
+                        <span class="info-value">+7 (950) 678-90-12</span>
+                    </div>
+                    <div class="note-icon"><i class="far fa-sticky-note"></i></div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="info-content">
+                        <span class="info-label">Email</span>
+                        <span class="info-value">alex.moroZOV@mail.ru</span>
+                    </div>
+                    <div class="note-icon"><i class="far fa-sticky-note"></i></div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="data-list-row">
+                    <span class="data-label">Категория</span>
+                    <span class="data-value badge">Другое</span>
+                </div>
+                <div class="data-list-row">
+                    <span class="data-label">Добавлен</span>
+                    <span class="data-value">11.05.2026</span>
+                </div>
+                <div class="data-list-row">
+                    <span class="data-label">Избранный</span>
+                    <span class="data-value">Нет</span>
+                </div>
+            </div>
+
+            <button class="delete-btn">
+                <i class="fas fa-trash-alt"></i>
+                Удалить контакт
+            </button>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: SETTINGS -->
+    <div class="phone-screen" id="settings-screen">
+        <div class="settings-header">
+            <a href="#" class="nav-btn" style="color: var(--text-main); background: #f1f2f6;"><i class="fas fa-arrow-left"></i></a>
+            <h1>Настройки</h1>
+        </div>
+
+        <div class="settings-content">
+            <div class="user-profile-card">
+                <div class="avatar-circle">ИИ</div>
+                <div class="user-info">
+                    <h3>ИВАН ИВАНОВ</h3>
+                    <p><i class="fab fa-instagram"></i> @ivan_dev • +7 (999) 123-45-67</p>
+                </div>
+                <div class="chevron"><i class="fas fa-chevron-right"></i></div>
+            </div>
+
+            <div class="section-title">УПРАВЛЕНИЕ КОНТАКТАМИ</div>
+            <div class="settings-list">
+                <div class="settings-item">
+                    <div class="item-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="item-text">
+                        <h4>Поиск дубликатов</h4>
+                        <p>Найдено 3 совпадения</p>
+                    </div>
+                    <div class="chevron"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+
+            <div class="section-title">КОНФИДЕНЦИАЛЬНОСТЬ И БЕЗОПАСНОСТЬ</div>
+            <div class="settings-list">
+                <div class="settings-item">
+                    <div class="item-icon"><i class="fas fa-user-minus"></i></div>
+                    <div class="item-text">
+                        <h4>Заблокированные</h4>
+                        <p>управление черным списком</p>
+                    </div>
+                    <div class="chevron"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="settings-item">
+                    <div class="item-icon"><i class="fas fa-lock"></i></div>
+                    <div class="item-text">
+                        <h4>Блокировка приложения</h4>
+                        <p>ПИН-код и биометрия</p>
+                    </div>
+                    <div class="chevron"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+
+            <div class="section-title">УВЕДОМЛЕНИЯ</div>
+            <div class="settings-list">
+                <div class="settings-item">
+                    <div class="item-icon"><i class="fas fa-bell"></i></div>
+                    <div class="item-text">
+                        <h4>Системные уведомления</h4>
+                    </div>
+                    <div class="toggle-container">
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">ОСНОВНОЕ</div>
+            <div class="settings-list">
+                <div class="settings-item">
+                    <div class="item-icon"><i class="fas fa-language"></i></div>
+                    <div class="item-text">
+                        <h4>Язык приложения</h4>
+                    </div>
+                    <div class="lang-badge">Русский</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
