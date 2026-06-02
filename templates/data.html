@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление Контактами - Настройки</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-black rounded flex items-center justify-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12C14.2091 12 16 10.2091 16 8C16 5.79086 14.2091 4 12 4C9.79086 4 8 5.79086 8 8C8 10.2091 9.79086 12 12 12Z" fill="white"/>
+                        <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="white"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold leading-tight">Управление Контактами</h1>
+                    <p class="text-sm text-gray-500">Всего контактов: 2</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="dropdown">
+                    <button class="btn btn-white">Меню</button>
+                    <div class="dropdown-content">
+                        <a href="home.html">Профиль</a>
+                        <a href="contacts.html">Контакты</a>
+                        <a href="data.html"><b>Настройки</b></a>
+                        <a href="search.html">Поиск</a>
+                        <a href="categories.html">Категории</a>
+                    </div>
+                </div>
+                <a href="form_new.html" class="btn btn-purple">+ Добавить контакт</a>
+                <button class="btn btn-green">Экспорт</button>
+                <button class="btn btn-blue">Импорт</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <div class="card">
+            <h2 class="text-2xl font-bold mb-1">Настройки</h2>
+            <p class="text-sm text-gray-400 mb-8">Управляй параметрами интерфейса и уведомлений.</p>
+
+            <div class="space-y-4">
+                <div class="flex items-center justify-between py-4 border-b border-gray-50">
+                    <span class="text-sm font-medium">Темный режим</span>
+                    <div class="checkbox-icon"></div>
+                </div>
+                <div class="flex items-center justify-between py-4 border-b border-gray-50 checkbox-checked">
+                    <span class="text-sm font-medium">Push-уведомления</span>
+                    <div class="checkbox-icon"></div>
+                </div>
+                <div class="flex items-center justify-between py-4 checkbox-checked">
+                    <span class="text-sm font-medium">Авто-резервное копирование</span>
+                    <div class="checkbox-icon"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
