@@ -84,7 +84,7 @@ button {
 
 button:hover { opacity: 0.9; transform: translateY(-1px); }
 
-/* Search & Filter Section */
+/* Поиск и фильтрация */
 .search-section {
     background: white;
     border: 1px solid var(--border);
@@ -139,7 +139,7 @@ input:focus { border-color: var(--primary); }
 
 .sort-tag.active { background: var(--primary); color: white; }
 
-/* Contact Cards */
+/* Контактные карточки */
 .category-block { margin-top: 40px; }
 
 .category-title {
@@ -208,7 +208,6 @@ input:focus { border-color: var(--primary); }
 .btn-edit { background: var(--primary); color: white; flex: 1; justify-content: center; }
 .btn-delete { background: var(--danger); color: white; flex: 1; justify-content: center; }
 
-/* Modal */
 .modal-overlay {
     position: fixed;
     inset: 0;
