@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Управление Контактами</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div>
+          <h1>Управление Контактами</h1>
+          <p id="contacts-count">Всего контактов: 0</p>
+        </div>
+        <div class="header-actions">
+          <button id="open-menu" class="btn btn-light">Меню</button>
+          <button id="open-add" class="btn btn-purple">+ Добавить контакт</button>
+          <button id="go-export" class="btn btn-green">Экспорт</button>
+          <button id="go-import" class="btn btn-blue">Импорт</button>
+        </div>
+      </header>
+
+      <main class="main">
+        <div id="error" class="error hidden"></div>
+
+        <section id="tab-contacts" class="tab-panel">
+          <div class="panel">
+            <div class="filters-grid">
+              <label>
+                <span>Поиск</span>
+                <input id="search" placeholder="Поиск по имени, телефону, email, адресу..." />
+              </label>
+              <label>
+                <span>Категория</span>
+                <select id="category-filter">
+                  <option>Все категории</option>
+                  <option>Работа</option>
+                  <option>Друзья</option>
+                  <option>Семья</option>
+                </select>
+              </label>
+            </div>
+            <div class="sort-row" id="sort-row"></div>
+          </div>
+          <div id="contacts-groups" class="groups"></div>
+        </section>
+
+        <section id="tab-import" class="tab-panel hidden">
+          <div class="panel">
+            <h2>Импорт контактов</h2>
+            <p>Вставь JSON массив и нажми импорт.</p>
+            <textarea id="import-text">[</textarea>
+            <div class="row-gap">
+              <button id="import-btn" class="btn btn-purple">Импорт</button>
+              <button id="clear-import" class="btn btn-light">Очистить</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="tab-export" class="tab-panel hidden">
+          <div class="panel">
+            <h2>Экспорт контактов</h2>
+            <p>Скачай контакты в JSON.</p>
+            <pre id="export-preview"></pre>
+            <button id="download-export" class="btn btn-green">Скачать экспорт</button>
+          </div>
+        </section>
+
+        <section id="tab-settings" class="tab-panel hidden">
+          <div class="panel">
+            <h2>Настройки</h2>
+            <div class="switch-row">
+              <label for="push-alerts">Push-уведомления</label>
+              <input id="push-alerts" type="checkbox" />
+            </div>
+            <div class="switch-row">
+              <label for="auto-backup">Авто-резервное копирование</label>
+              <input id="auto-backup" type="checkbox" />
+            </div>
+            <button id="save-settings" class="btn btn-purple">Сохранить настройки</button>
+          </div>
+        </section>
+
+        <section id="tab-profile" class="tab-panel hidden">
+          <div class="panel">
+            <h2>Профиль</h2>
+            <label>
+              <span>Имя</span>
+              <input id="profile-name" />
+            </label>
+            <label>
+              <span>Email</span>
+              <input id="profile-email" type="email" />
+            </label>
+            <label>
+              <span>Роль</span>
+              <input id="profile-role" />
+            </label>
+            <button id="save-profile" class="btn btn-purple mt">Сохранить профиль</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <aside id="side-menu" class="side-menu hidden">
+      <div class="side-head">
+        <h3>Разделы</h3>
+        <button id="close-menu" class="close">x</button>
+      </div>
+      <button class="menu-item active" data-tab="contacts">Контакты</button>
+      <button class="menu-item" data-tab="import">Импорт</button>
+      <button class="menu-item" data-tab="export">Экспорт</button>
+      <button class="menu-item" data-tab="settings">Настройки</button>
+      <button class="menu-item" data-tab="profile">Профиль</button>
+    </aside>
+    <div id="overlay" class="overlay hidden"></div>
+
+    <div id="modal" class="modal hidden">
+      <form id="contact-form" class="modal-card">
+        <div class="modal-head">
+          <h3 id="modal-title">Добавить контакт</h3>
+          <button type="button" id="close-modal" class="close">x</button>
+        </div>
+        <label><span>Имя *</span><input name="name" required /></label>
+        <label><span>Телефон *</span><input name="phone" required /></label>
+        <label><span>Email *</span><input name="email" type="email" required /></label>
+        <label><span>Адрес *</span><textarea name="address" required></textarea></label>
+        <label>
+          <span>Категория *</span>
+          <select name="category">
+            <option>Работа</option>
+            <option>Друзья</option>
+            <option>Семья</option>
+          </select>
+        </label>
+        <div class="row-gap">
+          <button type="button" id="cancel-modal" class="btn btn-light">Отмена</button>
+          <button id="submit-modal" type="submit" class="btn btn-purple">Добавить</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
